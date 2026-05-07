@@ -923,7 +923,7 @@
 
             items.forEach(function(item) {
                 if (products.length >= 3) return;
-                var container = item.querySelector('[data-variants]');
+                var container = item.matches('[data-variants]') ? item : item.querySelector('[data-variants]');
                 if (!container) return;
                 try {
                     var variants = JSON.parse(container.getAttribute('data-variants'));
