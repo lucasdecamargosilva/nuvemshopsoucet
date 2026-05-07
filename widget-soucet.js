@@ -1178,6 +1178,11 @@
                     document.querySelector('.q-card-ia').classList.add('is-result');
                     document.getElementById('q-step-result').style.display = 'flex';
                     loadRelatedProducts();
+                    // Retry once depois de 1s caso slider tenha renderizado tarde
+                    setTimeout(function () {
+                        var sec = document.getElementById('q-related-products');
+                        if (sec && sec.style.display === 'none') loadRelatedProducts();
+                    }, 1000);
                 } else if (res.status === 401 || res.status === 403) {
                     document.getElementById('q-loading-box').style.display = 'none';
                     photoStep.style.display = 'flex';
