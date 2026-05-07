@@ -121,7 +121,7 @@
         /* ── Trigger (selo sobre foto) ── */
         @keyframes q-shake { 0%,50%,100%{transform:rotate(0deg)} 10%,30%{transform:rotate(-10deg)} 20%,40%{transform:rotate(10deg)} }
         .q-btn-trigger-ia {
-            position: absolute; top: 32px; right: 14px; z-index: 100;
+            position: absolute; top: 60px; right: 14px; z-index: 100;
             background: none; border: none; padding: 0; cursor: pointer;
             width: 70px; height: 70px;
             display: flex; align-items: center; justify-content: center;
@@ -527,7 +527,7 @@
                     <!-- Persistent header (all steps) -->
                     <div id="q-header-provador">
                         <h1>Provador Virtual</h1>
-                        <img src="https://acdn-us.mitiendanube.com/stores/006/831/683/themes/common/logo-197594339-1762176436-f2fd9a32edc4ebb778e7a9401eda02ad1762176436-640-0.webp" alt="SOUCET" style="height:48px;width:auto;filter:brightness(0);"/>
+                        <img src="https://acdn-us.mitiendanube.com/stores/006/831/683/themes/common/logo-197594339-1762176436-f2fd9a32edc4ebb778e7a9401eda02ad1762176436-640-0.webp" alt="SOUCET" style="height:48px;width:auto;"/>
                     </div>
 
                     <!-- Main step -->
