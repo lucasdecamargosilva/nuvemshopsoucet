@@ -260,6 +260,39 @@
             color: var(--c-muted); margin-bottom: 8px;
         }
         .q-phone-wrap { margin-bottom: 28px; }
+
+        /* ── Photo selector (product images) ── */
+        .q-photo-selector-wrap { margin-bottom: 28px; display: none; }
+        .q-photo-selector-wrap.is-visible { display: block; }
+        .q-photo-thumbs {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .q-photo-thumb {
+            position: relative; aspect-ratio: 1;
+            cursor: pointer; padding: 0; margin: 0;
+            border: 1.5px solid var(--c-line);
+            background: var(--c-surface);
+            overflow: hidden; border-radius: 4px;
+            transition: border-color 0.15s, transform 0.15s;
+        }
+        .q-photo-thumb img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .q-photo-thumb:hover { border-color: var(--c-ink); }
+        .q-photo-thumb.is-selected { border-color: var(--c-ink); border-width: 2px; }
+        .q-photo-thumb.is-selected::after {
+            content: ''; position: absolute; inset: 0;
+            background: rgba(0,0,0,0.04); pointer-events: none;
+        }
+        .q-photo-thumb-check {
+            position: absolute; top: 4px; right: 4px;
+            width: 18px; height: 18px; border-radius: 50%;
+            background: var(--c-ink); color: #fff;
+            display: none; align-items: center; justify-content: center;
+            font-size: 10px;
+        }
+        .q-photo-thumb.is-selected .q-photo-thumb-check { display: flex; }
         .q-input {
             display: block; width: 100%; height: 52px;
             padding: 0 16px; margin: 0;
@@ -572,6 +605,12 @@
                             <div id="q-phone-error" class="q-status-msg">N&#250;mero inv&#225;lido</div>
                         </div>
 
+                        <!-- Product photo selector -->
+                        <div class="q-photo-selector-wrap" id="q-photo-selector-group">
+                            <span class="q-field-label">Escolha a foto do &#243;culos</span>
+                            <div class="q-photo-thumbs" id="q-photo-thumbs"></div>
+                        </div>
+
                         <!-- Photo section -->
                         <p class="q-section-label">Envie sua foto</p>
                         <div class="q-tip-box">
@@ -874,14 +913,46 @@
                 const og = document.querySelector('meta[property="og:image"]')?.content;
                 if (og) uniqueImgs.push(upgradeImgUrl(og));
             }
-            return uniqueImgs.slice(0, 2);
+            return uniqueImgs.slice(0, 4);
         }
 
         function populateImageSelector() {
             const imgs = extractImages();
             const group = document.getElementById('q-photo-selector-group');
-            if (group) group.style.display = 'none';
+            const thumbs = document.getElementById('q-photo-thumbs');
+
             selectedProductImgUrl = imgs[0] || '';
+
+            if (!group || !thumbs || imgs.length <= 1) {
+                if (group) group.classList.remove('is-visible');
+                return;
+            }
+
+            while (thumbs.firstChild) thumbs.removeChild(thumbs.firstChild);
+            imgs.forEach((url, idx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'q-photo-thumb' + (idx === 0 ? ' is-selected' : '');
+                btn.dataset.url = url;
+                btn.setAttribute('aria-label', 'Foto ' + (idx + 1));
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'Foto ' + (idx + 1);
+                img.loading = 'lazy';
+                const check = document.createElement('span');
+                check.className = 'q-photo-thumb-check';
+                check.textContent = '✓';
+                btn.appendChild(img);
+                btn.appendChild(check);
+                btn.addEventListener('click', () => {
+                    selectedProductImgUrl = url;
+                    thumbs.querySelectorAll('.q-photo-thumb').forEach(t => t.classList.remove('is-selected'));
+                    btn.classList.add('is-selected');
+                });
+                thumbs.appendChild(btn);
+            });
+
+            group.classList.add('is-visible');
         }
 
         function openModal() {
