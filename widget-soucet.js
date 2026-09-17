@@ -1086,6 +1086,13 @@
         const imgContainers = ['.js-product-slide', '.product-image-column', '.js-swiper-product', '[data-store^="product-image-"]', '.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '[data-media-id]', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
 
         function tryPlaceTriggerBtn() {
+            // Anchor outside the moving swiper-wrapper so every photo keeps the seal.
+            const gallery = document.querySelector('.product-images-slider') || document.querySelector('.js-swiper-product');
+            if (gallery && gallery.querySelector('img')) {
+                if (window.getComputedStyle(gallery).position === 'static') gallery.style.position = 'relative';
+                gallery.appendChild(openBtn);
+                return true;
+            }
             // 1ª prioridade: container que tenha <img> dentro (evita cair em slide de vídeo)
             for (const sel of imgContainers) {
                 const els = document.querySelectorAll(sel);
