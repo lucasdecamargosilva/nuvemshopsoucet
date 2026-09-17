@@ -1066,6 +1066,9 @@
         if (isCapProduct) {
             const referenceLabel = modalContainer.querySelector('[data-pl-reference-label]');
             if (referenceLabel) referenceLabel.remove();
+            // Keep the selector DOM for automatic reference extraction, but hide all
+            // thumbnails and arrows on cap pages, including after modal resets.
+            styleTag.textContent += '\n#q-photo-selector-group { display: none !important; }';
         }
         document.body.appendChild(modalContainer);
 
