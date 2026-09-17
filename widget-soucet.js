@@ -1065,7 +1065,7 @@
         const isCapProduct = /(^|[^a-z])(bones?|caps?)([^a-z]|$)/.test((productNameNormalized + ' ' + window.location.pathname).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase());
         if (isCapProduct) {
             const referenceLabel = modalContainer.querySelector('[data-pl-reference-label]');
-            if (referenceLabel) referenceLabel.textContent = 'Escolha a foto do boné';
+            if (referenceLabel) referenceLabel.remove();
         }
         document.body.appendChild(modalContainer);
 
